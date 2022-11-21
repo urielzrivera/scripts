@@ -12,7 +12,7 @@ test_files =  {
   "file_3" : open("file_name3.txt", "rb")
 }
 
-response = requests.post(url, files = test_files})
+response = requests.post(url, files = test_files)
 
 if response.ok:
   print("File Uploaded Successfully")
