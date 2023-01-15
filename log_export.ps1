@@ -15,11 +15,8 @@ $XMLFilter = @'
 '@
 
 <#
-    This function creates a bunch of sample log files that will be used to train the
-    Extract feature in Log Analytics workspace. If you don't have enough log files to
-    "train" it, it will fail to extract certain fields for some reason -_-.
-    We can avoid including these fake records on our map by filtering out all logs with
-    a destination host of "samplehost"
+    Powershell will fail to extract data if not provided with samples of it. This function creates a bunch of sample log files that will be used to train the
+    Extract feature in Log Analytics workspace.
 #>
 Function write-Sample-Log() {
     "latitude:47.91542,longitude:-120.60306,destinationhost:samplehost,username:fakeuser,sourcehost:24.16.97.222,state:Washington,country:United States,label:United States - 24.16.97.222,timestamp:2021-10-26 03:28:29" | Out-File $LOGFILE_PATH -Append -Encoding utf8
@@ -35,7 +32,7 @@ Function write-Sample-Log() {
     "latitude:-55.88802,longitude:37.65136,destinationhost:samplehost,username:Test,sourcehost:94.232.47.130,state:Central Federal District,country:Russia,label:Russia - 94.232.47.130,timestamp:2021-10-26 14:25:33" | Out-File $LOGFILE_PATH -Append -Encoding utf8
 }
 
-# This block of code will create the log file if it doesn't already exist
+# Create the log file if it doesn't already exist.
 if ((Test-Path $LOGFILE_PATH) -eq $false) {
     New-Item -ItemType File -Path $LOGFILE_PATH
     write-Sample-Log
@@ -45,7 +42,7 @@ if ((Test-Path $LOGFILE_PATH) -eq $false) {
 while ($true)
 {
     
-    Start-Sleep -Seconds 1
+    Start-Sleep -Seconds 3
     # This retrieves events from Windows EVent Viewer based on the filter
     $events = Get-WinEvent -FilterXml $XMLFilter -ErrorAction SilentlyContinue
     if ($Error) {
