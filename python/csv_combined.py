@@ -1,6 +1,7 @@
 #!/usr/bin/env/python3
 
 # import modules
+# pip install pandas
 import os
 import pandas as pd
 
